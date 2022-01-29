@@ -113,11 +113,12 @@ MANSECT="2:3:3p:1:1p:8:4:5:6:7:9:0p:tcl:n:l:p:o"
 export MANSECT
 
 # Use Zplugin
-if [ ! -e "$HOME/.zinit/bin/zinit.zsh" ]; then
-  mkdir ~/.zinit
-  git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+if [ ! -e "$HOME/.local/share/zinit/zinit.git/zinit.zsh" ]; then
+  #mkdir ~/.zinit
+  #git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+  sh -c "$(curl -fsSL https://git.io/zinit-install)"
 fi
-source "$HOME/.zinit/bin/zinit.zsh"
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 
 # Additional completion definitions for Zsh
 if is-at-least 5.3; then
@@ -143,9 +144,9 @@ else
   compinit
   zinit cdreplay -q
 fi
-zinit light zdharma/fast-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 
-zinit ice svn
+#zinit ice svn
 zinit snippet OMZ::plugins/extract
 zinit snippet OMZ::lib/termsupport.zsh
 
@@ -164,10 +165,15 @@ for loc in $autojump_locations; do
   fi
 done
 
-if ! source_if_exists ~/.fzf.zsh; then
-  source_if_exists /usr/share/doc/fzf/examples/completion.zsh
-  source_if_exists /usr/share/doc/fzf/examples/key-bindings.zsh
-fi
+#if ! source_if_exists ~/.fzf.zsh; then
+#  source_if_exists /usr/share/doc/fzf/examples/completion.zsh
+#  source_if_exists /usr/share/doc/fzf/examples/key-bindings.zsh
+#fi
+zinit pack for fzf
+# zsh-fzf-history-search
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
+
 bindkey '^P' fzf-history-widget
 
 # git aliases
@@ -198,3 +204,14 @@ unset BREW_PREFIX
 unset BREW_OPT_PREFIX
 unset -f add_to_path_once
 unset -f source_if_exists
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+### End of Zinit's installer chunk

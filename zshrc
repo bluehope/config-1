@@ -43,6 +43,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
   if [[ -e /usr/local/homebrew/bin && ! -e /usr/local/bin/brew ]]; then
     add_to_path_once "/usr/local/homebrew/bin"
   fi
+  if [[ -e /opt/homebrew/bin ]]; then
+    add_to_path_once "/opt/homebrew/bin"
+  fi
   export CLICOLOR=1
   export LSCOLORS="ExFxCxDxBxegedabagacad"
 fi
@@ -112,13 +115,13 @@ fi
 MANSECT="2:3:3p:1:1p:8:4:5:6:7:9:0p:tcl:n:l:p:o"
 export MANSECT
 
-# Use Zplugin
-if [ ! -e "$HOME/.local/share/zinit/zinit.git/zinit.zsh" ]; then
-  #mkdir ~/.zinit
-  #git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
-  sh -c "$(curl -fsSL https://git.io/zinit-install)"
+# Use zinit
+if [ -e "$HOME/.zinit/bin/" ]; then
+  source "$HOME/.zinit/bin/zinit.zsh"
 fi
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+if [ -e "$BREW_PREFIX/opt/zinit/" ]; then
+  source "$BREW_PREFIX/opt/zinit/zinit.zsh"
+fi
 
 # Additional completion definitions for Zsh
 if is-at-least 5.3; then
